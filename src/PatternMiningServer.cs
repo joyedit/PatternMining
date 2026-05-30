@@ -11,6 +11,7 @@ namespace PatternMining
         private const string SpeedStatName = "miningSpeedMul";
 
         private ICoreServerAPI sapi;
+        private IServerNetworkChannel channel;
 
         public override bool ShouldLoad(EnumAppSide side) => side == EnumAppSide.Server;
 
@@ -27,17 +28,22 @@ namespace PatternMining
                 .RequiresPrivilege(Privilege.chat)
                 .HandleWith(OnCmdToggle);
 
-            api.Network
+            channel = api.Network
                 .RegisterChannel(NetworkConstants.ChannelName)
+                .RegisterMessageType<CyclePatternRequest>()
                 .RegisterMessageType<PatternSelectMessage>()
-                .SetMessageHandler<PatternSelectMessage>(OnPatternSelected);
+                .SetMessageHandler<CyclePatternRequest>(OnCycleRequest);
         }
 
         private void OnPlayerNowPlaying(IServerPlayer player)
         {
             if (PlayerState.IsEnabled(player))
             {
-                ApplySpeedModifier(player, PatternRegistry.Get(PlayerState.GetPatternIndex(player)));
+                MiningPattern pat = PatternRegistry.Get(PlayerState.GetPatternIndex(player));
+                ApplySpeedModifier(player, pat);
+                // Tell the client which pattern is actually active so its display
+                // matches the server's persisted state from the first block mined.
+                channel.SendPacket(new PatternSelectMessage { PatternKey = pat.Key }, player);
             }
         }
 
@@ -63,17 +69,22 @@ namespace PatternMining
                 "Sneak-mine to override and break a single block.");
         }
 
-        private void OnPatternSelected(IServerPlayer player, PatternSelectMessage msg)
+        private void OnCycleRequest(IServerPlayer player, CyclePatternRequest msg)
         {
-            if (player == null || string.IsNullOrEmpty(msg?.PatternKey)) return;
-            if (!PatternRegistry.TryFindIndex(msg.PatternKey, out int idx)) return;
+            if (player == null) return;
 
+            int idx = (PlayerState.GetPatternIndex(player) + 1) % PatternRegistry.Count;
             PlayerState.SetPatternIndex(player, idx);
 
+            MiningPattern pat = PatternRegistry.Get(idx);
             if (PlayerState.IsEnabled(player))
             {
-                ApplySpeedModifier(player, PatternRegistry.Get(idx));
+                ApplySpeedModifier(player, pat);
             }
+
+            // Echo the resulting pattern back so the client displays exactly what
+            // the server will mine.
+            channel.SendPacket(new PatternSelectMessage { PatternKey = pat.Key }, player);
         }
 
         private void ApplySpeedModifier(IServerPlayer player, MiningPattern pattern)

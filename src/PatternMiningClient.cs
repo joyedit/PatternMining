@@ -11,7 +11,6 @@ namespace PatternMining
 
         private ICoreClientAPI capi;
         private IClientNetworkChannel channel;
-        private int selectedIndex;
 
         public override bool ShouldLoad(EnumAppSide side) => side == EnumAppSide.Client;
 
@@ -32,7 +31,9 @@ namespace PatternMining
 
             channel = api.Network
                 .RegisterChannel(NetworkConstants.ChannelName)
-                .RegisterMessageType<PatternSelectMessage>();
+                .RegisterMessageType<CyclePatternRequest>()
+                .RegisterMessageType<PatternSelectMessage>()
+                .SetMessageHandler<PatternSelectMessage>(OnPatternFromServer);
         }
 
         private static GlKeys ParseKey(ICoreClientAPI api, string name)
@@ -49,12 +50,17 @@ namespace PatternMining
             ItemSlot slot = capi.World.Player?.InventoryManager?.ActiveHotbarSlot;
             if (slot?.Itemstack?.Collectible?.Tool != EnumTool.Pickaxe) return false;
 
-            selectedIndex = (selectedIndex + 1) % PatternRegistry.Count;
-            MiningPattern pat = PatternRegistry.Get(selectedIndex);
-
-            ShowPatternInChat(pat);
-            channel.SendPacket(new PatternSelectMessage { PatternKey = pat.Key });
+            // The server owns the current pattern. Ask it to advance; it replies with
+            // the new pattern, which we then display. This keeps the chat display and
+            // the server's mining behavior from ever drifting out of sync.
+            channel.SendPacket(new CyclePatternRequest());
             return true;
+        }
+
+        private void OnPatternFromServer(PatternSelectMessage msg)
+        {
+            if (msg == null || !PatternRegistry.TryFindIndex(msg.PatternKey, out int idx)) return;
+            ShowPatternInChat(PatternRegistry.Get(idx));
         }
 
         private void ShowPatternInChat(MiningPattern pat)

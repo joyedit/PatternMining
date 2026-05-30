@@ -1,6 +1,6 @@
 # Pattern Mining (formerly Vertical Mining)
 
-**Mod ID:** patternmining &nbsp;•&nbsp; **Version:** 3.1.0 &nbsp;•&nbsp; **Side:** Client and Server
+**Mod ID:** patternmining &nbsp;•&nbsp; **Version:** 3.1.1 &nbsp;•&nbsp; **Side:** Client and Server
 **Hotkeys:** Ctrl+P (cycle patterns, rebindable) &nbsp;•&nbsp; **Commands:** /pm (toggle on/off)
 
 ## Description
