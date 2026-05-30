@@ -11,6 +11,11 @@ namespace PatternMining
 
     public class PatternMiningConfig
     {
+        public string CycleHotkey { get; set; } = "P";
+        public bool CycleHotkeyCtrl { get; set; } = true;
+        public bool CycleHotkeyShift { get; set; } = false;
+        public bool CycleHotkeyAlt { get; set; } = false;
+
         public Dictionary<string, PatternConfigEntry> Patterns { get; set; } = new();
     }
 

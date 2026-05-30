@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
@@ -17,19 +18,30 @@ namespace PatternMining
         public override void StartClientSide(ICoreClientAPI api)
         {
             capi = api;
-            ConfigLoader.LoadOrCreate(api);
+            PatternMiningConfig config = ConfigLoader.LoadOrCreate(api);
 
             api.Input.RegisterHotKey(
                 HotkeyCode,
                 "Cycle Mining Pattern",
-                GlKeys.P,
+                ParseKey(api, config.CycleHotkey),
                 HotkeyType.GUIOrOtherControls,
-                ctrlPressed: true);
+                altPressed: config.CycleHotkeyAlt,
+                ctrlPressed: config.CycleHotkeyCtrl,
+                shiftPressed: config.CycleHotkeyShift);
             api.Input.SetHotKeyHandler(HotkeyCode, OnCycleHotkey);
 
             channel = api.Network
                 .RegisterChannel(NetworkConstants.ChannelName)
                 .RegisterMessageType<PatternSelectMessage>();
+        }
+
+        private static GlKeys ParseKey(ICoreClientAPI api, string name)
+        {
+            if (!string.IsNullOrWhiteSpace(name) && Enum.TryParse(name, ignoreCase: true, out GlKeys key))
+                return key;
+
+            api.Logger.Warning("[patternmining] Unknown CycleHotkey '{0}' in patternmining.json; defaulting to P. Use a GlKeys name (e.g. P, M, Comma).", name);
+            return GlKeys.P;
         }
 
         private bool OnCycleHotkey(KeyCombination _)

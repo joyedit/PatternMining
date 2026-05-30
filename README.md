@@ -1,7 +1,7 @@
 # Pattern Mining (formerly Vertical Mining)
 
-**Mod ID:** patternmining &nbsp;•&nbsp; **Version:** 3.0.1 &nbsp;•&nbsp; **Side:** Client and Server
-**Hotkeys:** Ctrl+P (cycle patterns) &nbsp;•&nbsp; **Commands:** /pm (toggle on/off)
+**Mod ID:** patternmining &nbsp;•&nbsp; **Version:** 3.1.0 &nbsp;•&nbsp; **Side:** Client and Server
+**Hotkeys:** Ctrl+P (cycle patterns, rebindable) &nbsp;•&nbsp; **Commands:** /pm (toggle on/off)
 
 ## Description
 
@@ -65,6 +65,21 @@ For each pattern you can set:
 
 If the config file is missing or malformed, the mod falls back to the built-in
 defaults shown in the table above.
+
+### Changing the hotkey
+
+The "Cycle Mining Pattern" key can be changed two ways:
+
+- **In-game (recommended):** Settings → Controls → search "Cycle Mining Pattern" and
+  rebind it like any other control. This takes priority over the config default.
+- **Config file:** edit `patternmining.json`. The defaults are:
+  - `CycleHotkey` — the key name (a `GlKeys` value, e.g. `P`, `M`, `Comma`). Default `P`.
+  - `CycleHotkeyCtrl` — require Ctrl. Default `true`.
+  - `CycleHotkeyShift` — require Shift. Default `false`.
+  - `CycleHotkeyAlt` — require Alt. Default `false`.
+
+  If `CycleHotkey` isn't a recognized key name, the mod logs a warning and falls back
+  to Ctrl+P.
 
 ## Crafting
 
