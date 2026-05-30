@@ -66,20 +66,46 @@ For each pattern you can set:
 If the config file is missing or malformed, the mod falls back to the built-in
 defaults shown in the table above.
 
-### Changing the hotkey
+## Changing the "Cycle Mining Pattern" key
 
-The "Cycle Mining Pattern" key can be changed two ways:
+**Easiest — in-game (recommended):**
 
-- **In-game (recommended):** Settings → Controls → search "Cycle Mining Pattern" and
-  rebind it like any other control. This takes priority over the config default.
-- **Config file:** edit `patternmining.json`. The defaults are:
-  - `CycleHotkey` — the key name (a `GlKeys` value, e.g. `P`, `M`, `Comma`). Default `P`.
-  - `CycleHotkeyCtrl` — require Ctrl. Default `true`.
-  - `CycleHotkeyShift` — require Shift. Default `false`.
-  - `CycleHotkeyAlt` — require Alt. Default `false`.
+1. Open **Settings → Controls**.
+2. Search for **"Cycle Mining Pattern"**.
+3. Click it and press the key (and modifiers) you want.
 
-  If `CycleHotkey` isn't a recognized key name, the mod logs a warning and falls back
-  to Ctrl+P.
+This works on any installation and overrides the config file below.
+
+**Via the config file:**
+
+The mod creates `patternmining.json` in your Vintage Story **ModConfig** folder the
+first time you run it:
+
+| OS | Path |
+|---|---|
+| Windows | `%APPDATA%\VintagestoryData\ModConfig\patternmining.json` |
+| Linux | `~/.config/VintagestoryData/ModConfig/patternmining.json` |
+| macOS | `~/Library/Application Support/VintagestoryData/ModConfig/patternmining.json` |
+
+Open it in a text editor, set these values, then **restart the game**:
+
+```json
+"CycleHotkey": "P",
+"CycleHotkeyCtrl": true,
+"CycleHotkeyShift": false,
+"CycleHotkeyAlt": false
+```
+
+- `CycleHotkey` — the key name. Use a single letter (`P`, `M`), a punctuation name
+  (`Comma`, `Period`, `Minus`), or a function key (`F6`). Default `P`.
+- `CycleHotkeyCtrl` / `CycleHotkeyShift` / `CycleHotkeyAlt` — set to `true` to require
+  that modifier. The default is Ctrl only, giving **Ctrl+P**.
+
+If the key name isn't recognized, the mod logs a warning and falls back to **Ctrl+P**.
+
+> **Updating from an older version?** If your `patternmining.json` was created before
+> v3.1.0 it won't have these lines — just add them inside the `{ }`, or delete the file
+> and let the mod regenerate it.
 
 ## Crafting
 
