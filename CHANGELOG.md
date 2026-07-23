@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.2.1 — 2026-07-23
+
+- Compatibility release for Vintage Story 1.22.5. Rebuilt against the 1.22.5
+  assemblies; no code changes.
+
 ## 3.2.0
 - Added a small on-screen indicator: a 3x3 dot grid that lights up the shape of the active pattern while Pattern Mining is enabled, and hides when it's off. Turn it off with `ShowHud: false` in `patternmining.json`.
 
