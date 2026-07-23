@@ -11,6 +11,9 @@ namespace PatternMining
 
         private ICoreClientAPI capi;
         private IClientNetworkChannel channel;
+        private PatternHud hud;
+        private bool lastEnabled;
+        private int lastPatternIndex = -1;
 
         public override bool ShouldLoad(EnumAppSide side) => side == EnumAppSide.Client;
 
@@ -34,6 +37,44 @@ namespace PatternMining
                 .RegisterMessageType<CyclePatternRequest>()
                 .RegisterMessageType<PatternSelectMessage>()
                 .SetMessageHandler<PatternSelectMessage>(OnPatternFromServer);
+
+            if (config.ShowHud)
+            {
+                hud = new PatternHud(api);
+                // Drive the indicator from synced player state (enabled flag + pattern
+                // index live in WatchedAttributes), so it tracks /pm and cycling without
+                // any extra networking. Only refreshes when the state actually changes.
+                api.Event.RegisterGameTickListener(OnHudTick, 250);
+            }
+        }
+
+        private void OnHudTick(float _)
+        {
+            IPlayer player = capi.World?.Player;
+            if (player?.Entity == null)
+            {
+                // Between worlds: hide and force a refresh on the next join.
+                hud.HideHud();
+                lastEnabled = false;
+                lastPatternIndex = -1;
+                return;
+            }
+
+            bool enabled = PlayerState.IsEnabled(player);
+            int index = PlayerState.GetPatternIndex(player);
+            if (enabled == lastEnabled && index == lastPatternIndex) return;
+
+            lastEnabled = enabled;
+            lastPatternIndex = index;
+
+            if (enabled) hud.ShowPattern(PatternRegistry.Get(index));
+            else hud.HideHud();
+        }
+
+        public override void Dispose()
+        {
+            hud?.Dispose();
+            hud = null;
         }
 
         private static GlKeys ParseKey(ICoreClientAPI api, string name)

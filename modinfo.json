@@ -3,8 +3,8 @@
   "modid": "patternmining",
   "name": "Pattern Mining",
   "authors": ["Feyd"],
-  "description": "Pattern mining with pickaxes. Cycle through Vertical, Column, Horizontal, Cross, and 3x3 Tunnel patterns with Ctrl+P (rebindable in Controls or patternmining.json). Toggle with /pm. Sneak to mine a single block. Larger patterns cost more tool durability and mine slower for balance, and every pattern's tool wear and mining speed are configurable via patternmining.json. Compatible with Vintage Story 1.22.3.",
-  "version": "3.1.1",
+  "description": "Pattern mining with pickaxes. Cycle through Vertical, Column, Horizontal, Cross, and 3x3 Tunnel patterns with Ctrl+P (rebindable in Controls or patternmining.json). Toggle with /pm. Sneak to mine a single block. A small on-screen dot grid shows the active pattern (can be turned off in config). Larger patterns cost more tool durability and mine slower for balance, and every pattern's tool wear and mining speed are configurable via patternmining.json. Compatible with Vintage Story 1.22.3.",
+  "version": "3.2.0",
   "dependencies": {
     "game": ""
   }

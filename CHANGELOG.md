@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.2.0
+- Added a small on-screen indicator: a 3x3 dot grid that lights up the shape of the active pattern while Pattern Mining is enabled, and hides when it's off. Turn it off with `ShowHud: false` in `patternmining.json`.
+
 ## 3.1.1
 - Fixed a desync where the chat could show one pattern (e.g. Vertical) while the server mined a different one (e.g. Tunnel), causing unexpected extra blocks to break. The server is now the single source of truth for the active pattern: the hotkey asks the server to advance and the client only displays what the server confirms. The active pattern is also re-synced to the client on join.
 

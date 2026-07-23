@@ -1,6 +1,6 @@
 # Pattern Mining (formerly Vertical Mining)
 
-**Mod ID:** patternmining &nbsp;•&nbsp; **Version:** 3.1.1 &nbsp;•&nbsp; **Side:** Client and Server
+**Mod ID:** patternmining &nbsp;•&nbsp; **Version:** 3.2.0 &nbsp;•&nbsp; **Side:** Client and Server
 **Hotkeys:** Ctrl+P (cycle patterns, rebindable) &nbsp;•&nbsp; **Commands:** /pm (toggle on/off)
 
 ## Description
@@ -65,6 +65,12 @@ For each pattern you can set:
 
 If the config file is missing or malformed, the mod falls back to the built-in
 defaults shown in the table above.
+
+### On-screen pattern indicator
+
+While Pattern Mining is enabled, a small 3x3 dot grid appears on the left side of the
+screen, lighting up the cells that match your active pattern (it hides when you toggle
+off with `/pm`). To turn it off, set `"ShowHud": false` in `patternmining.json`.
 
 ## Changing the "Cycle Mining Pattern" key
 

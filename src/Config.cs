@@ -16,6 +16,9 @@ namespace PatternMining
         public bool CycleHotkeyShift { get; set; } = false;
         public bool CycleHotkeyAlt { get; set; } = false;
 
+        // Show the small on-screen pattern indicator while Pattern Mining is on.
+        public bool ShowHud { get; set; } = true;
+
         public Dictionary<string, PatternConfigEntry> Patterns { get; set; } = new();
     }
 
