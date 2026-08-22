@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.2.2 — 2026-08-22
+
+- Compatibility release for Vintage Story 1.22.7. Rebuilt against the 1.22.7
+  assemblies; no code changes.
+
 ## 3.2.1 — 2026-07-23
 
 - Compatibility release for Vintage Story 1.22.5. Rebuilt against the 1.22.5
